@@ -1,0 +1,2 @@
+[tools]
+ruby = "{{ get_env(name='RUBY_VERSION', default='3.4.2') }}"
