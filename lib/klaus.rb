@@ -21,10 +21,9 @@ module Klaus
 
   # execute a query against a knowledge base
   # knowledge base & string need to be in internal representation
-  def solve(knowledge_base, query, debug: false)
-    solver = Solver.new(knowledge_base, debug: debug)
-    solver.initialize_goal(query)
-    solver.solve
+  def solve(knowledge_base, goals)
+    unifier = Unifier.new(knowledge_base)
+    unifier.solve(goals)
   end
 
   module_function :parse_knowledge_base, :parse_query, :solve

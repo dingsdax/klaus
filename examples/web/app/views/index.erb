@@ -1,0 +1,113 @@
+<div class="prolog-interface">
+  <h1>K L A U S · P R O L O G</h1>
+  
+  <form id="prolog-form">
+    <div class="input-section">
+      <label for="knowledge_base">Knowledge Base:</label>
+      <textarea id="knowledge_base" name="knowledge_base" rows="12" placeholder="Enter your Prolog knowledge base (facts and rules) here..."><%= @knowledge_base %></textarea>
+    </div>
+    
+    <div class="input-section">
+      <label for="query">Query:</label>
+      <div class="query-container">
+        <textarea id="query" name="query" rows="3" placeholder="Enter your Prolog query here..."><%= @query %></textarea>
+        <button type="button" id="solve-button" class="retro-button cybr-btn">SOLVE</button>
+      </div>
+    </div>
+    
+    <div class="input-section">
+      <label for="result">Result:</label>
+      <textarea id="result" name="result" rows="8" readonly><%= @result %></textarea>
+    </div>
+  </form>
+  
+  <div class="footer">
+    <p>KLAUS PROLOG © 2025 · a dingsdax production 🖖🏻</p>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Get elements
+    const solveButton = document.getElementById('solve-button');
+    const knowledgeBase = document.getElementById('knowledge_base');
+    const query = document.getElementById('query');
+    const result = document.getElementById('result');
+    
+    // Add cursor blink effect to input areas
+    const textareas = document.querySelectorAll('textarea');
+    
+    textareas.forEach(textarea => {
+      // Auto resize textareas based on content
+      textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+      });
+    });
+    
+    // Handle solve button click
+    solveButton.addEventListener('click', async () => {
+      // Show loading state
+      result.value = "Processing query...";
+      solveButton.disabled = true;
+      solveButton.textContent = "RUNNING";
+      
+      try {
+        // Prepare form data
+        const formData = new FormData();
+        formData.append('knowledge_base', knowledgeBase.value);
+        formData.append('query', query.value);
+        
+        // Send request to solve endpoint
+        const response = await fetch('/solve', {
+          method: 'POST',
+          body: formData
+        });
+        
+        // Parse JSON response
+        const data = await response.json();
+        
+        // Update result textarea
+        result.value = data.result;
+      } catch (error) {
+        // Handle any errors
+        result.value = `Error: ${error.message}`;
+      } finally {
+        // Reset button state
+        solveButton.disabled = false;
+        solveButton.textContent = "SOLVE";
+      }
+    });
+    
+    // Terminal button effects
+    const closeButton = document.querySelector('.terminal-button.close');
+    closeButton.addEventListener('click', () => {
+      const terminal = document.querySelector('.terminal-container');
+      terminal.style.transform = 'scale(0)';
+      setTimeout(() => {
+        terminal.style.transform = 'scale(1)';
+      }, 300);
+    });
+    
+    // Add sample data when clicking terminal title
+    const terminalTitle = document.querySelector('.terminal-title');
+    terminalTitle.addEventListener('dblclick', () => {
+      // Sample family relationships knowledge base
+      knowledgeBase.value = 
+`parent(john, bob).
+parent(john, lisa).
+parent(bob, ann).
+parent(bob, carl).
+
+grandparent(X, Z) :- parent(X, Y), parent(Y, Z).`;
+      
+      query.value = 'grandparent(john, Who).';
+      
+      // Trigger resize
+      textareas.forEach(textarea => {
+        const event = new Event('input');
+        textarea.dispatchEvent(event);
+      });
+    });
+  });
+</script>

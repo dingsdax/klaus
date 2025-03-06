@@ -1,0 +1,9 @@
+source 'https://rubygems.org'
+
+# Add the local Klaus gem
+gem 'Klaus', path: '../../'
+
+gem 'roda',     '~> 3.77'
+gem 'puma',     '~> 6.4'
+gem 'erubi',    '~> 1.12'
+gem 'tilt',     '~> 2.3'

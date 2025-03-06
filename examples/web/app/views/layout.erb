@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Klausi's kleiner Prolog Web >Terminal</title>
+  <style>
+  /* Retro Terminal CSS with Earth Tones */
+  @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+  :root {
+   --bg-color: #1e2c35;
+    --terminal-bg: #0f1923;
+    --text-color:rgb(228, 244, 252);
+    --highlight-color: #4d9fc1;
+    --accent-color: #2d6e86;
+    --border-color: #385c6d;
+    --button-color: #0080b3;
+    --button-hover: #00a6e6;
+    --input-bg: #0f1923;
+    --error-color: #e85c73;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'VT323', monospace;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    line-height: 1.6;
+    font-size: 18px;
+    background-image: 
+      linear-gradient(to right, rgba(90, 64, 27, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(90, 64, 27, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .terminal-container {
+    width: 90%;
+    max-width: 800px;
+    background-color: var(--terminal-bg);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    border: 2px solid var(--border-color);
+    position: relative;
+  }
+
+  .terminal-header {
+    display: flex;
+    align-items: center;
+    background-color: var(--border-color);
+    padding: 8px 15px;
+    border-bottom: 2px solid var(--accent-color);
+  }
+
+  .terminal-button {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 8px;
+    cursor: pointer;
+  }
+
+  .close {
+    background-color: #d17a46;
+  }
+
+  .minimize {
+    background-color: #e6b66c;
+  }
+
+  .maximize {
+    background-color: #8d9e6f;
+  }
+
+  .terminal-title {
+    flex-grow: 1;
+    text-align: center;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 14px;
+    color: var(--text-color);
+    letter-spacing: 2px;
+    cursor: pointer;
+  }
+
+  .terminal-content {
+    padding: 20px;
+  }
+
+  .prolog-interface {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  h1 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--highlight-color);
+    text-shadow: 3px 3px 0 var(--accent-color);
+    letter-spacing: 2px;
+  }
+
+  .input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  label {
+    font-size: 20px;
+    color: var(--highlight-color);
+    margin-bottom: 5px;
+  }
+
+  textarea {
+    width: 100%;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+    padding: 12px;
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    resize: none;
+    border-radius: 4px;
+  }
+
+  textarea:focus {
+    outline: none;
+    border-color: var(--highlight-color);
+    box-shadow: 0 0 10px rgba(193, 154, 73, 0.4);
+  }
+
+  /* CRT effect */
+  textarea, .retro-button {
+    position: relative;
+    overflow: hidden;
+  }
+
+  textarea::before, .retro-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      rgba(210, 198, 177, 0.03) 50%, 
+      rgba(0, 0, 0, 0.02) 50%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  #result {
+    height: 200px;
+    overflow-y: scroll;
+  }
+
+  .query-container {
+    display: flex;
+    gap: 10px;
+  }
+
+  .query-container textarea {
+    flex-grow: 1;
+  }
+
+  .retro-button {
+    background-color: var(--button-color);
+    color: var(--terminal-bg);
+    border: none;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 12px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    box-shadow: 3px 3px 0 var(--accent-color);
+    transition: all 0.2s;
+    min-width: 100px;
+  }
+
+  .retro-button:hover {
+    background-color: var(--button-hover);
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0 var(--accent-color);
+  }
+
+  .retro-button:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+  }
+
+  .retro-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  #result {
+    background-color: rgba(26, 21, 14, 0.7);
+    border-color: var(--accent-color);
+  }
+
+  .footer {
+    margin-top: 20px;
+    text-align: center;
+    color: var(--accent-color);
+    font-size: 16px;
+  }
+
+  /* Add some scan lines and CRT flicker effect */
+  .terminal-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      rgba(210, 198, 177, 0.04) 50%, 
+      rgba(0, 0, 0, 0.04) 50%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  @keyframes flicker {
+    0% { opacity: 0.97; }
+    5% { opacity: 0.95; }
+    10% { opacity: 0.97; }
+    15% { opacity: 0.95; }
+    20% { opacity: 0.96; }
+    25% { opacity: 0.97; }
+    30% { opacity: 0.95; }
+    35% { opacity: 0.98; }
+    40% { opacity: 0.94; }
+    45% { opacity: 0.97; }
+    50% { opacity: 0.98; }
+    55% { opacity: 0.96; }
+    60% { opacity: 0.98; }
+    65% { opacity: 0.97; }
+    70% { opacity: 0.95; }
+    75% { opacity: 0.97; }
+    80% { opacity: 0.96; }
+    85% { opacity: 0.98; }
+    90% { opacity: 0.97; }
+    95% { opacity: 0.95; }
+    100% { opacity: 0.97; }
+  }
+
+  .terminal-content {
+    animation: flicker 5s infinite;
+  }
+
+  /* Loading spinner for AJAX requests */
+  @keyframes blink {
+    0% { opacity: 0.3; }
+    50% { opacity: 1; }
+    100% { opacity: 0.3; }
+  }
+
+  .retro-button.loading {
+    animation: blink 1s infinite;
+  }
+
+  /* Media queries for responsiveness */
+  @media (max-width: 700px) {
+    .terminal-container {
+      width: 100%;
+    }
+    
+    .query-container {
+      flex-direction: column;
+    }
+    
+    .retro-button {
+      align-self: center;
+    }
+    
+    h1 {
+      font-size: 14px;
+    }
+    
+    .terminal-title {
+      font-size: 12px;
+    }
+  }
+  </style>
+</head>
+<body>
+  <div class="terminal-container">
+    <div class="terminal-header">
+      <div class="terminal-button close"></div>
+      <div class="terminal-button minimize"></div>
+      <div class="terminal-button maximize"></div>
+      <div class="terminal-title">KLAUS PROLOG TERMINAL</div>
+    </div>
+    <div class="terminal-content">
+      <%= yield %>
+    </div>
+  </div>
+</body>
+</html>

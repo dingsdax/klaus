@@ -7,6 +7,7 @@ module Klaus
     end
 
     def solve(queries, env = Environment.new)
+      queries = [] << queries unless queries.is_a?(Array)
       # Special case for queries with only anonymous variables
       return solve_anonymous_variables(queries) if queries.all? { |query| query.arguments.all?(AnonymousVariable) }
 

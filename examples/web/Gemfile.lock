@@ -1,0 +1,34 @@
+PATH
+  remote: ../..
+  specs:
+    Klaus (0.1.0)
+      parslet (~> 2.0)
+      zeitwerk (~> 2.7)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    erubi (1.13.1)
+    nio4r (2.7.4)
+    parslet (2.0.0)
+    puma (6.6.0)
+      nio4r (~> 2.0)
+    rack (3.1.11)
+    roda (3.89.0)
+      rack
+    tilt (2.6.0)
+    zeitwerk (2.7.2)
+
+PLATFORMS
+  ruby
+  x86_64-linux
+
+DEPENDENCIES
+  Klaus!
+  erubi (~> 1.12)
+  puma (~> 6.4)
+  roda (~> 3.77)
+  tilt (~> 2.3)
+
+BUNDLED WITH
+   2.6.5
