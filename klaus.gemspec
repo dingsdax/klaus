@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['johdax@fastmail.fm']
 
   spec.summary       = 'A Prolog interpreter implemented in Ruby'
-  spec.description   = 'Klaus aims to become an embed-able ISO compliant performant Prolog interpreter written in pure Ruby'
+  spec.description   = 'An embeddable, ISO-aspirational Prolog interpreter in pure Ruby'
   spec.homepage      = 'https://github.com/dingsdax/klaus'
   spec.license       = 'MIT'
 

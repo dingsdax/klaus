@@ -2,6 +2,7 @@
 
 module Klaus
   class Unifier
+    MAX_RECURSION_DEPTH = 100
     def initialize(knowledge_base)
       @knowledge_base = knowledge_base
     end
@@ -31,7 +32,6 @@ module Klaus
         query_matches = @knowledge_base.select do |clause|
           clause.is_a?(Compound) &&
             clause.functor == query.functor &&
-            # TODO: use arity
             clause.arguments.length == query.arguments.length
         end
 
@@ -49,7 +49,7 @@ module Klaus
 
     def solve_recursive(queries, env, solutions, solution_set, depth = 0)
       # Prevent infinite recursion
-      return if depth > 100
+      return if depth > MAX_RECURSION_DEPTH
 
       # If no queries left, we've found a solution
       if queries.empty?
@@ -98,6 +98,7 @@ module Klaus
       end
     end
 
+    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def unify(term1, term2, env)
       # If both are anonymous variables, always match
       return env if term1.is_a?(AnonymousVariable) && term2.is_a?(AnonymousVariable)
@@ -139,6 +140,7 @@ module Klaus
       # Unification fails
       nil
     end
+    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
     def resolve(term, env)
       # If term is a variable (but not anonymous)

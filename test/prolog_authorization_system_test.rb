@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'test_helper'
+
 class PrologIntegrationTest < Minitest::Test
   def setup
     # Create atoms for users, roles, and actions

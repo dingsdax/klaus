@@ -5,32 +5,12 @@ plugins:
 
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.4
   Exclude:
-    - examples/*
+    - examples/**/*
 
+# --- Keep disabled (justified) ---
 Layout/HashAlignment:
-  Enabled: false
-
-Metrics/AbcSize:
-  Enabled: false
-
-Metrics/BlockLength:
-  Enabled: false
-
-Metrics/ClassLength:
-  Enabled: false
-
-Metrics/CyclomaticComplexity:
-  Enabled: false
-
-Metrics/MethodLength:
-  Enabled: false
-
-Metrics/ParameterLists:
-  Enabled: false
-
-Metrics/PerceivedComplexity:
   Enabled: false
 
 Naming/MethodParameterName:
@@ -39,8 +19,46 @@ Naming/MethodParameterName:
 Style/AsciiComments:
   Enabled: false
 
+Style/ParallelAssignment:
+  Enabled: false
+
+# --- Re-enable with thresholds ---
+Metrics/MethodLength:
+  Max: 25
+  CountAsOne:
+    - hash
+    - array
+    - heredoc
+
+Metrics/AbcSize:
+  Max: 35
+  Exclude:
+    - test/**/*_test.rb
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Metrics/PerceivedComplexity:
+  Max: 10
+
+Metrics/BlockLength:
+  Exclude:
+    - test/**/*_test.rb
+    - '*.gemspec'
+
+Metrics/ClassLength:
+  Max: 150
+  Exclude:
+    - test/**/*_test.rb
+
+Metrics/ParameterLists:
+  Max: 6
+
+Minitest/MultipleAssertions:
+  Max: 15
+
 Style/Documentation:
   Enabled: false
 
-Style/ParallelAssignment:
+Gemspec/DevelopmentDependencies:
   Enabled: false

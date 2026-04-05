@@ -5,7 +5,6 @@ require 'zeitwerk'
 loader = Zeitwerk::Loader.for_gem
 loader.setup
 
-# TODO: add Sorbet for the lulz
 module Klaus
   # parse a Prolog knowledge base into its internal representation
   def parse_knowledge_base(knowledge_base_string)
