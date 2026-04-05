@@ -71,4 +71,10 @@ class KnowledgeBaseParserTest < Minitest::Test
     assert_equal(%w[X Y], rule.body[0].arguments.map(&:name))
     assert_equal(%w[Y Z], rule.body[1].arguments.map(&:name))
   end
+
+  def test_parse_error_on_invalid_syntax
+    assert_raises(Parslet::ParseFailed) do
+      Klaus.parse_knowledge_base('human(.')
+    end
+  end
 end
