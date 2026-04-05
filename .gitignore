@@ -1,1 +1,7 @@
 coverage/
+.bundle/
+*.gem
+pkg/
+tmp/
+.DS_Store
+Gemfile.lock

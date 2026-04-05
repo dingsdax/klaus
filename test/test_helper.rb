@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
-Bundler.require :tools
+Bundler.require(:tools) if ENV['DEBUG']
 
 require 'simplecov'
 SimpleCov.start { enable_coverage :branch }

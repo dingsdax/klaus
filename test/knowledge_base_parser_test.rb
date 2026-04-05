@@ -55,7 +55,6 @@ class KnowledgeBaseParserTest < Minitest::Test
     PROLOG
 
     result = Klaus.parse_knowledge_base(program)
-    # TODO: sibling(X, Y) :- parent(P, X), parent(P, Y), X \\= Y.
 
     assert_equal 5, result.size
     assert_equal ['parent'], result[0..3].map { |compound| compound.functor.to_s }.uniq
