@@ -99,4 +99,11 @@ class QueryParserTest < Minitest::Test
     assert_kind_of Klaus::Variable, result[1].arguments[1]
     assert_equal 'Y', result[1].arguments[1].name
   end
+
+  def test_parse_error_on_invalid_syntax
+    parser = Klaus::QueryParser.new
+    assert_raises(Parslet::ParseFailed) do
+      parser.parse('human(')
+    end
+  end
 end
