@@ -1,12 +1,27 @@
 # frozen_string_literal: true
 
 module Klaus
+  # Implements SLD resolution and unification for Prolog queries.
+  #
+  # This unifier does not perform the occurs check (ISO 6.3.2).
+  # Unifying X with f(X) succeeds, producing a cyclic structure.
+  # This matches SWI-Prolog's default behavior and is intentional.
+  #
+  # Backtracking uses Ruby's recursive call stack with a depth limit
+  # of {MAX_RECURSION_DEPTH}. See {ChoicePoint} for the planned
+  # iterative solver that will remove this limitation.
   class Unifier
     MAX_RECURSION_DEPTH = 100
+
     def initialize(knowledge_base)
       @knowledge_base = knowledge_base
     end
 
+    # Solve a list of goals against the knowledge base.
+    #
+    # @param queries [Compound, Array<Compound>] one or more goals to satisfy
+    # @param env [Environment] initial variable bindings (default: empty)
+    # @return [Array<Environment>] solution environments, one per valid binding set
     def solve(queries, env = Environment.new)
       queries = [] << queries unless queries.is_a?(Array)
       # Special case for queries with only anonymous variables
