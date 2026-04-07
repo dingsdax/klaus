@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 module Klaus
+  # Stores variable bindings for a Prolog solution.
+  # Supports chain resolution (X -> Y -> atom) with cycle detection.
   class Environment
+    # @param bindings [Hash] initial variable bindings (default: empty)
     def initialize(bindings = {})
       @bindings = bindings.clone
     end
@@ -10,11 +13,22 @@ module Klaus
       @bindings.key?(var_name.to_sym)
     end
 
+    # Bind a variable name to a value.
+    #
+    # @param var_name [String, Symbol] variable name
+    # @param value [Atom, Variable, Compound] value to bind
+    # @return [true]
     def bind(var_name, value)
       @bindings[var_name.to_sym] = value
       true
     end
 
+    # Resolve a variable to its final value, following binding chains.
+    # Returns nil if unbound, or the direct binding if a cycle is detected.
+    #
+    # @param var_name [String, Symbol] variable name
+    # @param visited [Array<Symbol>] already-visited variables (cycle detection)
+    # @return [Atom, Variable, Compound, nil] resolved value
     def get_value(var_name, visited = [])
       var_key = var_name.to_sym
 
@@ -51,6 +65,9 @@ module Klaus
     alias [] get_value
     alias []= bind
 
+    # Return all bindings as a hash, resolving chains and excluding unbound variables.
+    #
+    # @return [Hash{Symbol => Atom, Compound}] resolved bindings
     def to_h
       result = {}
 
