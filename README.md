@@ -77,14 +77,11 @@ The following ISO Prolog features are not yet implemented:
 
 ## Potential Use Cases
 
-The potential key advantage of an embeddable Prolog is that rules live in data, not code. You can store them in a database, load them from a config file, let non-developers edit them, and hot-reload without re-deploying.
+An embeddable Prolog system offers a different way to structure logic: rules are treated as data rather than hard-coded into the application. This makes it possible to store them in databases or config files, edit them without touching the codebase, and update them without redeploying.
 
-- Authorization & access control: Define roles, permissions, and inheritance as Prolog rules. Query `can_access(User, Resource)` instead of writing nested if/else chains. Rules are auditable by non-engineers.
-- Configuration validation: Express constraints as rules ("service A depends on service B"), feed your config as facts, query for violations.
-- Expert systems: Decision trees for medical triage, insurance underwriting, tax eligibility, support routing. The knowledge base is human-readable and modifiable without code deploys.
-- Data lineage & dependency graphs: Express "table A derives from table B" as facts, "transitive dependency" as a rule. Query reachability, find cycles.
-- Education: Teach logic programming from a familiar Ruby environment without requiring a separate Prolog installation.
-- Game AI: NPC behavior rules, dialogue trees, puzzle solvers. Prolog's backtracking naturally explores possibilities.
+In practice, this can simplify things like access control, where permissions are expressed as rules instead of nested conditionals. It can also help with configuration validation, modeling decision logic in expert systems, or exploring data dependencies.
+
+Because the rules are declarative and readable, they’re often easier to review, adjust, and extend. It can also make it more approachable to experiment with logic programming or apply it to areas like game AI, where exploring different outcomes is useful.
 
 ## Related Projects
 
