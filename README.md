@@ -104,7 +104,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## Why "Klaus"?
 
-Prolog is based on [Horn clauses](https://en.wikipedia.org/wiki/Horn_clause). Say "clauses" with a German accent and you get... Klaus. Naturally, he's a mountain goat — the only animal whose horns double as logical inference rules. The glasses are for reading specs. The Ruby pendant is self-explanatory.
+Prolog is based on [Horn clauses](https://en.wikipedia.org/wiki/Horn_clause). Say "clauses" with a German accent and you get Klaus. Naturally, Klaus is a mountain goat with ... 🎉 ... horns 🤦🐐!
 
 ## License
 
