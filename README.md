@@ -60,10 +60,6 @@ solutions = Klaus.solve(kb, query)
 
 ## Architecture
 
-Klaus processes Prolog in a five-stage pipeline:
-
-**Source string** &rarr; **Parser** (Parslet) &rarr; **Transformer** &rarr; **Domain objects** (Atom, Variable, Compound, Rule) &rarr; **SLD Resolution** (Unifier) &rarr; **Solution environments**
-
 See [AGENTS.md](AGENTS.md) for details.
 
 ## Current Limitations
