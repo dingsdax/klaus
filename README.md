@@ -1,27 +1,14 @@
-# Klaus
+# Klaus - an embeddable, ISO-aspirational Prolog interpreter in pure Ruby
 
 <p align="center">
-  <img src="docs/klaus.png" alt="Klaus the mountain goat" width="200">
+  <img src="docs/klaus.png" alt="Klaus the mountain goat" width="250">
 </p>
 
 [![CI](https://github.com/dingsdax/klaus/actions/workflows/ci.yml/badge.svg)](https://github.com/dingsdax/klaus/actions/workflows/ci.yml)
 [![Gem Version](https://badge.fury.io/rb/Klaus.svg)](https://badge.fury.io/rb/Klaus)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-An embeddable, ISO-aspirational :) Prolog interpreter in pure Ruby.
-
 Klaus lets you define logical rules as data and query them at runtime. No external binaries, no FFI, no DSLs, just strings in, answers out.
-
-## Use Cases
-
-The key advantage of an embeddable Prolog is that **rules live in data, not code**. You can store them in a database, load them from a config file, let non-developers edit them, and hot-reload without re-deploying.
-
-- **Authorization & access control**: Define roles, permissions, and inheritance as Prolog rules. Query `can_access(User, Resource)` instead of writing nested if/else chains. Rules are auditable by non-engineers.
-- **Configuration validation**: Express constraints as rules ("service A depends on service B"), feed your config as facts, query for violations.
-- **Expert systems**: Decision trees for medical triage, insurance underwriting, tax eligibility, support routing. The knowledge base is human-readable and modifiable without code deploys.
-- **Data lineage & dependency graphs**: Express "table A derives from table B" as facts, "transitive dependency" as a rule. Query reachability, find cycles.
-- **Education**: Teach logic programming from a familiar Ruby environment without requiring a separate Prolog installation.
-- **Game AI**: NPC behavior rules, dialogue trees, puzzle solvers. Prolog's backtracking naturally explores possibilities.
 
 ## Installation
 
@@ -91,6 +78,17 @@ The following ISO Prolog features are not yet implemented:
 - I/O streams
 - Exception handling (`catch/3`, `throw/1`)
 - Occurs check (omitted intentionally, matching SWI-Prolog's default behavior)
+
+## Potential Use Cases
+
+The potential key advantage of an embeddable Prolog is that rules live in data, not code. You can store them in a database, load them from a config file, let non-developers edit them, and hot-reload without re-deploying.
+
+- Authorization & access control: Define roles, permissions, and inheritance as Prolog rules. Query `can_access(User, Resource)` instead of writing nested if/else chains. Rules are auditable by non-engineers.
+- Configuration validation: Express constraints as rules ("service A depends on service B"), feed your config as facts, query for violations.
+- Expert systems: Decision trees for medical triage, insurance underwriting, tax eligibility, support routing. The knowledge base is human-readable and modifiable without code deploys.
+- Data lineage & dependency graphs: Express "table A derives from table B" as facts, "transitive dependency" as a rule. Query reachability, find cycles.
+- Education: Teach logic programming from a familiar Ruby environment without requiring a separate Prolog installation.
+- Game AI: NPC behavior rules, dialogue trees, puzzle solvers. Prolog's backtracking naturally explores possibilities.
 
 ## Related Projects
 
