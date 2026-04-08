@@ -8,6 +8,7 @@ AllCops:
   TargetRubyVersion: 3.4
   Exclude:
     - examples/**/*
+    - vendor/**/*
 
 # --- Keep disabled (justified) ---
 Layout/HashAlignment:
