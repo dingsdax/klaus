@@ -15,8 +15,13 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/dingsdax/klaus'
   spec.license       = 'MIT'
 
-  spec.files = Dir['lib/**/*']
+  spec.files = Dir['lib/**/*', 'LICENSE', 'README.md', 'CHANGES.md']
   spec.require_paths = ['lib']
+
+  spec.metadata['homepage_uri']    = spec.homepage
+  spec.metadata['source_code_uri'] = 'https://github.com/dingsdax/klaus'
+  spec.metadata['changelog_uri']   = 'https://github.com/dingsdax/klaus/blob/main/CHANGES.md'
+  spec.metadata['bug_tracker_uri'] = 'https://github.com/dingsdax/klaus/issues'
 
   spec.required_ruby_version = '>= 3.4.2'
 
