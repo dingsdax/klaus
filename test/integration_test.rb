@@ -96,4 +96,48 @@ class IntegrationTest < Minitest::Test
     assert_equal Klaus::Atom.new('john'), solution[:X]
     assert_equal Klaus::Atom.new('carl'), solution[:Z]
   end
+
+  def test_zero_arity_facts
+    program = <<~PROLOG
+      halt.
+      sunny.
+      raining.
+    PROLOG
+
+    knowledge_base = parse_prolog_program(program)
+
+    assert_equal 3, knowledge_base.size
+
+    knowledge_base.each do |fact|
+      assert_instance_of Klaus::Compound, fact
+      assert_equal 0, fact.arity
+      assert_equal [], fact.arguments
+    end
+
+    assert_equal 'halt', knowledge_base[0].functor
+    assert_equal 'sunny', knowledge_base[1].functor
+
+    # Query a zero-arity fact
+    solutions = solve_prolog_query(knowledge_base, 'halt')
+
+    assert_equal 1, solutions.size
+
+    # Query a non-existent zero-arity fact
+    solutions = solve_prolog_query(knowledge_base, 'missing')
+
+    assert_equal 0, solutions.size
+  end
+
+  def test_zero_arity_facts_in_rules
+    program = <<~PROLOG
+      sunny.
+      warm.
+      go_outside :- sunny, warm.
+    PROLOG
+
+    knowledge_base = parse_prolog_program(program)
+    solutions = solve_prolog_query(knowledge_base, 'go_outside')
+
+    assert_equal 1, solutions.size
+  end
 end

@@ -14,7 +14,7 @@ module Klaus
     rule(terms: simple(:term)) { [term] }
 
     rule(predicate: simple(:predicate)) do
-      Compound.new(predicate)
+      Compound.new(predicate, [])
     end
 
     rule(predicate: simple(:predicate), terms: simple(:term)) do
