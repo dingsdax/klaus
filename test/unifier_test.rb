@@ -213,4 +213,85 @@ class UnifierTest < Minitest::Test
     # Convert to sets for order-independent comparison
     assert_equal expected_parents.to_set, actual_parents.to_set
   end
+
+  def test_no_solution_wrong_functor
+    knowledge_base = [Klaus::Compound.new('human', [@john])]
+    unifier = Klaus::Unifier.new(knowledge_base)
+
+    query = Klaus::Compound.new('mortal', [@john])
+
+    assert_empty unifier.solve([query])
+  end
+
+  def test_no_solution_wrong_arity
+    knowledge_base = [Klaus::Compound.new('parent', [@john, @bob])]
+    unifier = Klaus::Unifier.new(knowledge_base)
+
+    query = Klaus::Compound.new('parent', [@john])
+
+    assert_empty unifier.solve([query])
+  end
+
+  def test_no_solution_conjunction_fails
+    knowledge_base = [
+      Klaus::Compound.new('parent', [@john, @bob]),
+      Klaus::Compound.new('parent', [@lisa, @ann])
+    ]
+    unifier = Klaus::Unifier.new(knowledge_base)
+
+    # john->bob exists, but bob->? doesn't
+    q1 = Klaus::Compound.new('parent', [@john, @x])
+    q2 = Klaus::Compound.new('parent', [@x, @y])
+
+    assert_empty unifier.solve([q1, q2])
+  end
+
+  def test_no_solution_empty_knowledge_base
+    unifier = Klaus::Unifier.new([])
+
+    query = Klaus::Compound.new('human', [@john])
+
+    assert_empty unifier.solve([query])
+  end
+
+  def test_no_solution_rule_body_unsatisfied
+    knowledge_base = [
+      Klaus::Rule.new(
+        Klaus::Compound.new('mortal', [@x]),
+        [Klaus::Compound.new('human', [@x])]
+      )
+      # No human/1 facts — rule body can never be satisfied
+    ]
+    unifier = Klaus::Unifier.new(knowledge_base)
+
+    query = Klaus::Compound.new('mortal', [@john])
+
+    assert_empty unifier.solve([query])
+  end
+
+  def test_anonymous_variable_mixed_with_regular
+    knowledge_base = [
+      Klaus::Compound.new('parent', [@john, @bob]),
+      Klaus::Compound.new('parent', [@john, @lisa]),
+      Klaus::Compound.new('parent', [@bob, @ann])
+    ]
+    unifier = Klaus::Unifier.new(knowledge_base)
+
+    # parent(_, X) — anonymous first arg, named second
+    anon = Klaus::AnonymousVariable.new
+    query = Klaus::Compound.new('parent', [anon, @x])
+    solutions = unifier.solve([query])
+
+    assert_equal 3, solutions.size
+
+    children = solutions.map { |sol| sol[:X] }
+
+    assert_includes children, @bob
+    assert_includes children, @lisa
+    assert_includes children, @ann
+  end
+
+  def test_depth_limit_prevents_infinite_recursion
+    skip 'depth counter resets on rule body resolution — needs iterative solver (ChoicePoint)'
+  end
 end

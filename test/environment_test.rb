@@ -155,4 +155,44 @@ class EnvironmentTest < Minitest::Test
     assert_equal 2, result.arguments.length
     assert_equal @atom_bob, result.arguments[1]
   end
+
+  def test_to_h_with_mixed_bound_and_unbound
+    @env[:X] = @atom_john
+    # Y is never bound
+
+    result = @env.to_h
+
+    assert_equal @atom_john, result[:X]
+    refute result.key?(:Y)
+  end
+
+  def test_to_h_resolves_chains
+    @env[:X] = @var_y
+    @env[:Y] = @atom_bob
+
+    result = @env.to_h
+
+    assert_equal @atom_bob, result[:X]
+    assert_equal @atom_bob, result[:Y]
+  end
+
+  def test_to_h_with_anonymous_variable_binding
+    @env[:X] = Klaus::AnonymousVariable.new
+
+    result = @env.to_h
+
+    # Anonymous variable bindings are still present in to_h
+    # (filtering happens in the unifier, not in Environment)
+    assert result.key?(:X)
+  end
+
+  def test_dup_creates_independent_copy
+    @env[:X] = @atom_john
+    copy = @env.dup
+
+    copy[:Y] = @atom_bob
+
+    refute @env.key?(:Y)
+    assert copy.key?(:Y)
+  end
 end
