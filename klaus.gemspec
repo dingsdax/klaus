@@ -29,12 +29,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'parslet', '~> 2.0'
   spec.add_dependency 'zeitwerk', '~> 2.7'
 
-  # development dependencies
-  spec.add_development_dependency 'bundler', '~> 2.0'
-  spec.add_development_dependency 'irb', '~> 1.15'
-  spec.add_development_dependency 'minitest', '~> 5.0'
-  spec.add_development_dependency 'ostruct', '~> 0.6'
-  spec.add_development_dependency 'rake', '~> 13.0'
-  spec.add_development_dependency 'reline', '~> 0.6'
   spec.metadata['rubygems_mfa_required'] = 'true'
 end
