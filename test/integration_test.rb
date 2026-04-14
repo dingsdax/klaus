@@ -111,7 +111,7 @@ class IntegrationTest < Minitest::Test
     knowledge_base.each do |fact|
       assert_instance_of Klaus::Compound, fact
       assert_equal 0, fact.arity
-      assert_equal [], fact.arguments
+      assert_empty fact.arguments
     end
 
     assert_equal 'halt', knowledge_base[0].functor

@@ -39,7 +39,7 @@ class TransformerTest < Minitest::Test
 
     assert_instance_of Klaus::Compound, result
     assert_equal 'halt', result.functor
-    assert_equal [], result.arguments
+    assert_empty result.arguments
     assert_equal 0, result.arity
   end
 
